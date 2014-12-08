@@ -10,8 +10,8 @@ import qualified Data.Yaml as Y
 helpMessage :: IO ()
 helpMessage = putStrLn "Usage: yaml2json <FILE> [<FILE> ..]\nFor stdin input, use - as FILE" >> exitFailure
 
-toJSON :: Show a => Either a Value -> IO BLC.ByteString
-toJSON x = case x of
+printJSON :: Show a => Either a Value -> IO BLC.ByteString
+printJSON x = case x of
   Left err -> print err >> exitFailure
   Right v -> return $ encodePretty (v :: Value)
 
@@ -23,5 +23,5 @@ main = do
     _ ->
       forM_ args $ \arg ->
         case arg of
-          "-" -> B.getContents >>= toJSON . Y.decodeEither' >>= BLC.putStr
-          _ -> Y.decodeFileEither arg >>= toJSON >>= BLC.writeFile (arg ++ ".json")
+          "-" -> B.getContents >>= printJSON . Y.decodeEither' >>= BLC.putStr
+          _ -> Y.decodeFileEither arg >>= printJSON >>= BLC.writeFile (arg ++ ".json")

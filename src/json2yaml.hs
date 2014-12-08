@@ -10,8 +10,8 @@ import           System.Exit                (exitFailure)
 helpMessage :: IO ()
 helpMessage = putStrLn "Usage: json2yaml <FILE> [<FILE> ..]\nFor stdin input, use - as FILE" >> exitFailure
 
-toYAML :: Show a => Either a Y.Value -> IO B.ByteString
-toYAML x = case x of
+printYAML :: Show a => Either a Y.Value -> IO B.ByteString
+printYAML x = case x of
   Left err -> print err >> exitFailure
   Right v -> return $ Y.encode (v :: Y.Value)
 
@@ -23,5 +23,5 @@ main = do
     _ ->
       forM_ args $ \arg ->
         case arg of
-          "-" -> B.getContents >>= toYAML . Y.decodeEither' >>= B.putStr
-          _ -> eitherDecode <$> BLC.readFile arg >>= toYAML >>= B.writeFile (arg ++ ".yaml")
+          "-" -> B.getContents >>= printYAML . Y.decodeEither' >>= B.putStr
+          _ -> eitherDecode <$> BLC.readFile arg >>= printYAML >>= B.writeFile (arg ++ ".yaml")
