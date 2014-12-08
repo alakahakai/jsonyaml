@@ -1,0 +1,33 @@
+l3vpnName: l3vpn1
+l3vpnTopo:
+  tag: Graph
+  edges:
+  - edgeName: o2p
+    destNode: 4
+    srcNode: 3
+  - edgeName: p2o
+    destNode: 3
+    srcNode: 4
+l3vpnEndPoints:
+- - asNumber: 65501
+  - location: SFO
+    nodeValue: o
+    nodeAddress:
+      address: '10.0.0.3'
+      family: IPv4
+    nodeName: SFO_PE_2
+    nodeId: 3
+  - name: ge-1/0/0
+    rate: 10
+    acl: null
+- - asNumber: 65502
+  - location: NYC
+    nodeValue: p
+    nodeAddress:
+      address: '10.0.0.4'
+      family: IPv4
+    nodeName: NYC_PE_2
+    nodeId: 4
+  - name: ge-1/0/0
+    rate: null
+    acl: null
